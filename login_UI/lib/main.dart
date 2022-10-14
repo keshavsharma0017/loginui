@@ -1,49 +1,51 @@
 import 'package:flutter/material.dart';
+// import 'firebase_options.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(
+    MaterialApp(
+      title: "Blockchain",
       theme: ThemeData(
-          scaffoldBackgroundColor: const Color.fromARGB(255, 0, 0, 0)),
-      home: Scaffold(
-        appBar: AppBar(
-            title: const Text(
-          'Login',
-        )),
-        body: (Center(
-          child: Container(
-            height: 250,
-            width: 220,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: (const BorderRadius.all(Radius.circular(25))),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color.fromARGB(255, 105, 105, 105),
-                  blurRadius: 3.0,
-                  spreadRadius: 5.0,
-                )
-              ],
-              color: Colors.black,
-              border: Border.all(
-                color: Colors.white,
-                width: 3,
-                style: BorderStyle.solid,
-              ),
-            ),
-            child: const Text(
-              'WELCOME',
-              style: TextStyle(fontSize: 30, color: Colors.white),
-            ),
+          // primarySwatch: Colors.red,
           ),
-        )),
-        // Center(
-        //   child: (
-        //     Text:
-        //     ),)
-        // ,
-      )));
+      home: const Homepage(),
+    ),
+  );
 }
 
+class Homepage extends StatelessWidget {
+  const Homepage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Blockchain')),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              decoration: const InputDecoration(
+                hintText: "Email",
+                border: UnderlineInputBorder(borderSide: BorderSide()),
+                labelText: 'Email',
+              ),
+            ),
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              decoration: const InputDecoration(
+                hintText: "Password",
+                border: UnderlineInputBorder(borderSide: BorderSide()),
+                labelText: 'Password',
+              ),
+            ),
+            TextButton(onPressed: () async {}, child: const Text('Login'))
+          ],
+        ),
+      ),
+    );
+  }
+}
 // const Text(
 //   'Hey there this is just na random command ...hehe dont laugh its not funny',
 // textAlign: TextAlign.center,       // alighnment
