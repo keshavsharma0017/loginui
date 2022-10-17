@@ -47,11 +47,10 @@ class _HomepageState extends State<Homepage> {
       // future: Firebase.initializeApp(),
       appBar: AppBar(title: const Text('Blockchain')),
       body: FutureBuilder(
+        future: Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        ),
         builder: (context, snapshot) {
-          // Future:
-          Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform,
-          );
           switch (snapshot.connectionState) {
             case ConnectionState.done:
               return Column(
