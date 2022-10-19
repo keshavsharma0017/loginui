@@ -1,8 +1,10 @@
+// ignore: avoid_web_libraries_in_flutter, unused_import
+// import 'dart:html';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:login_ui/views/login_view.dart';
-import 'firebase_options.dart';
+import 'package:login_ui/firebase_options.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,41 +14,18 @@ void main() {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginView(),
+      home: const HomePage(),
     ),
   );
 }
 
-class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
-
-  @override
-  State<RegisterView> createState() => _RegisterViewState();
-}
-
-class _RegisterViewState extends State<RegisterView> {
-  late final TextEditingController _email;
-  late final TextEditingController _passowrd;
-
-  @override
-  void initState() {
-    _email = TextEditingController();
-    _passowrd = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _email.dispose();
-    _passowrd.dispose();
-    super.dispose();
-  }
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // future: Firebase.initializeApp(),
-      appBar: AppBar(title: const Text('Blockchain')),
+      appBar: AppBar(title: const Text('HomePage')),
       body: FutureBuilder(
         future: Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
@@ -54,62 +33,18 @@ class _RegisterViewState extends State<RegisterView> {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  TextFormField(
-                    controller: _email,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    keyboardType: TextInputType.emailAddress,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      contentPadding: EdgeInsets.only(left: 10),
-                      hintText: "Email",
-                      border: UnderlineInputBorder(
-                        borderSide: BorderSide(),
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: _passowrd,
-                    obscureText: true,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: const InputDecoration(
-                      hintText: "Password",
-                      contentPadding: EdgeInsets.only(left: 10),
-                      border: UnderlineInputBorder(borderSide: BorderSide()),
-                      labelText: 'Password',
-                    ),
-                  ),
-                  TextButton(
-                      onPressed: () async {
-                        final email = _email.text;
-                        final password = _passowrd.text;
-                        try {
-                          final userCredential = await FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                            email: email,
-                            password: password,
-                          );
-                          // ignore: avoid_print
-                          print(userCredential);
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == "weak-password") {
-                            print("Weak Password");
-                          } else if (e.code == "email-already-in-use") {
-                            print("Email Already In Use");
-                          } else if (e.code == "invalid-email") {
-                            print("Invalid Email");
-                          }
-                        }
-                      },
-                      child: const Text('Register'))
-                ],
-              );
+              final user = FirebaseAuth.instance.currentUser;
+              if (user?.emailVerified ?? false) {
+                // print("heloo");
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const VerifyEmailView(),
+                    ));
+                // return const VerifyEmailView();
+              }
+              return const Text("Done");
             default:
               return const Text('loading');
           }
@@ -119,10 +54,22 @@ class _RegisterViewState extends State<RegisterView> {
   }
 }
 
+class VerifyEmailView extends StatefulWidget {
+  const VerifyEmailView({super.key});
 
+  @override
+  State<VerifyEmailView> createState() => _VerifyEmailViewState();
+}
 
-
-
+class _VerifyEmailViewState extends State<VerifyEmailView> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("MAIL VERIFY")),
+      body: const Text("NEW"),
+    );
+  }
+}
 
 // const Text(
 //   'Hey there this is just na random command ...hehe dont laugh its not funny',
