@@ -38,9 +38,12 @@ class HomePage extends StatelessWidget {
                 // print("heloo");
               } else {
                 Navigator.push(
-                    context,
+                    //error in this part of the code
+                    context, //error in this part of the code
                     MaterialPageRoute(
-                      builder: (context) => const VerifyEmailView(),
+                      //error in this part of the code
+                      builder: (context) =>
+                          const VerifyEmailView(), //error in this part of the code
                     ));
                 // return const VerifyEmailView();
               }
