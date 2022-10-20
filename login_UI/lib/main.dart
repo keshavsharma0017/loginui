@@ -5,6 +5,9 @@
 
 // ignore_for_file: unused_import
 
+// import 'dart:html';
+// import 'dart:js';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -19,10 +22,11 @@ void main() {
     MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Blockchain",
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: const HomePage(),
+      routes: {
+        '/login/': ((context) => const LoginView()),
+        '/register/': ((context) => const RegisterView()),
+      },
     ),
   );
 }
@@ -32,49 +36,18 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('HomePage')),
-      body: FutureBuilder(
-        initialData: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Center(
-              child: CircularProgressIndicator(),
-            )
-          ],
-        ),
-        future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        ),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              final user = FirebaseAuth.instance.currentUser;
-              // print(user);
-              if (user?.emailVerified ?? false) {
-                if (kDebugMode) {
-                  print("hello");
-                }
-              } else {
-                WidgetsBinding.instance.addPostFrameCallback(
-                  (_) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const VerifyEmailView(), //error in this part of the code
-                      ),
-                    );
-                  },
-                );
-              }
-              return const LoginView();
-            default:
-              return const Text('loading');
-          }
-        },
+    return FutureBuilder(
+      future: Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
       ),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            return const LoginView();
+          default:
+            return const Text('loading');
+        }
+      },
     );
   }
 }
@@ -122,3 +95,54 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
 //  softWrap: false,                  //wrappable or not
 //  maxLines: 2,                      //showes no of max line on app
 //  semanticsLabel: 'Hash Sign',      //explains the texts whenhovers on web
+
+
+
+
+
+// errorr resolved
+
+// FutureBuilder(
+//         initialData: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           children: const [
+//             Center(
+//               child: CircularProgressIndicator(),
+//             )
+//           ],
+//         ),
+//         future: Firebase.initializeApp(
+//           options: DefaultFirebaseOptions.currentPlatform,
+//         ),
+//         builder: (context, snapshot) {
+//           switch (snapshot.connectionState) {
+//             case ConnectionState.done:
+//               final user = FirebaseAuth.instance.currentUser;
+//               // print(user);
+//               if (user?.emailVerified ?? false) {
+//                 if (kDebugMode) {
+//                   // print("hello");
+//                 }
+//               } else {
+//                 WidgetsBinding.instance.addPostFrameCallback(
+//                   (_) {
+//                     // Navigator.of(context)
+//                     //     .pushAndRemoveUntil( '/login/', (route) => false);
+
+//                     Navigator.push(
+//                       context,
+//                       MaterialPageRoute(
+//                         builder: (context) =>
+//                             const VerifyEmailView(), //error in this part of the code
+//                       ),
+//                     );
+//                   },
+//                 );
+//               }
+//               return const LoginView();
+//             default:
+//               return const Text('loading');
+//           }
+//         },
+//       ),
