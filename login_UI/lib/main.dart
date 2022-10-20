@@ -1,4 +1,4 @@
-// ignore: avoid_web_libraries_in_flutter, unused_import
+// ignore: avoid_web_libraries_in_flutter,
 // import 'dart:html';
 
 // import 'dart:html';
@@ -51,6 +51,7 @@ class HomePage extends StatelessWidget {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
               final user = FirebaseAuth.instance.currentUser;
+              // print(user);
               if (user?.emailVerified ?? false) {
                 if (kDebugMode) {
                   print("hello");
@@ -68,7 +69,7 @@ class HomePage extends StatelessWidget {
                   },
                 );
               }
-              return const Text("Done");
+              return const LoginView();
             default:
               return const Text('loading');
           }
@@ -101,12 +102,12 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
         TextButton(
           onPressed: () async {
             final user = FirebaseAuth.instance.currentUser;
-            user?.sendEmailVerification();
+            await user?.sendEmailVerification();
           },
           child: const Text(
             "Send Email",
           ),
-        )
+        ),
       ]),
     );
   }
