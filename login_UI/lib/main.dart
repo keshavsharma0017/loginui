@@ -3,6 +3,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:login_ui/firebase_options.dart';
 
@@ -10,6 +11,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Blockchain",
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -27,6 +29,15 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('HomePage')),
       body: FutureBuilder(
+        initialData: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            Center(
+              child: CircularProgressIndicator(),
+            )
+          ],
+        ),
         future: Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
         ),
@@ -35,17 +46,21 @@ class HomePage extends StatelessWidget {
             case ConnectionState.done:
               final user = FirebaseAuth.instance.currentUser;
               if (user?.emailVerified ?? false) {
-                // print("heloo");
+                if (kDebugMode) {
+                  print("hello");
+                }
               } else {
-                Navigator.push(
-                    //error in this part of the code
-                    context, //error in this part of the code
-                    MaterialPageRoute(
-                      //error in this part of the code
-                      builder: (context) =>
-                          const VerifyEmailView(), //error in this part of the code
-                    ));
-                // return const VerifyEmailView();
+                WidgetsBinding.instance.addPostFrameCallback(
+                  (_) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const VerifyEmailView(), //error in this part of the code
+                      ),
+                    );
+                  },
+                );
               }
               return const Text("Done");
             default:
@@ -68,7 +83,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("MAIL VERIFY")),
+      appBar: AppBar(
+        title: const Text("MAIL VERIFY"),
+      ),
       body: const Text("NEW"),
     );
   }
