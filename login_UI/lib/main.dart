@@ -1,11 +1,17 @@
 // ignore: avoid_web_libraries_in_flutter, unused_import
 // import 'dart:html';
 
+// import 'dart:html';
+
+// ignore_for_file: unused_import
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:login_ui/firebase_options.dart';
+import 'package:login_ui/views/login_view.dart';
+import 'package:login_ui/views/register_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,7 +92,22 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
       appBar: AppBar(
         title: const Text("MAIL VERIFY"),
       ),
-      body: const Text("NEW"),
+      body: Column(children: [
+        const Text(
+          "Please Verify Your Email",
+          textScaleFactor: 1.5,
+          textAlign: TextAlign.center,
+        ),
+        TextButton(
+          onPressed: () async {
+            final user = FirebaseAuth.instance.currentUser;
+            user?.sendEmailVerification();
+          },
+          child: const Text(
+            "Send Email",
+          ),
+        )
+      ]),
     );
   }
 }
