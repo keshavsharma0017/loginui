@@ -1,9 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import '../firebase_options.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -78,6 +76,11 @@ class _LoginViewState extends State<LoginView> {
                     );
 
                     print(userCredential);
+                    final user = FirebaseAuth.instance.currentUser;
+                    if (user?.emailVerified ?? false) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/home/', (route) => false);
+                    }
                   } on FirebaseAuthException catch (e) {
                     if (e.code == "user-not-found") {
                       print("User details is Invalid");
@@ -95,6 +98,13 @@ class _LoginViewState extends State<LoginView> {
                     .pushNamedAndRemoveUntil('/register/', (route) => false);
               },
               child: const Text("Not Registered Yet? Register Here"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/verifyemail/', (route) => false);
+              },
+              child: const Text("Verify Your Email."),
             )
           ],
         ));
