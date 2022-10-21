@@ -30,6 +30,15 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
               "Send Email",
             ),
           ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login/', (route) => false);
+            },
+            child: const Text(
+              "If Verified , Click Here",
+            ),
+          ),
         ]));
   }
 }
