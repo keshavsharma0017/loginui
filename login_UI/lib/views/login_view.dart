@@ -1,7 +1,6 @@
-// ignore_for_file: avoid_print
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'dart:developer' as devtools show log;
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -75,38 +74,43 @@ class _LoginViewState extends State<LoginView> {
                       password: password,
                     );
 
-                    print(userCredential);
-                    final user = FirebaseAuth.instance.currentUser;
-                    if (user?.emailVerified ?? false) {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/home/', (route) => false);
-                    }
+                    devtools.log(userCredential.toString());
+
+                    if (!mounted) return;
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/home/',
+                      (route) => false,
+                    );
                   } on FirebaseAuthException catch (e) {
                     if (e.code == "user-not-found") {
-                      print("User details is Invalid");
+                      devtools.log("User details is Invalid");
                       // print(e);
                       // print(e.runtimeType);
                     } else if (e.code == "wrong-password") {
-                      print("Invaild Password");
+                      devtools.log("Invaild Password");
                     }
                   }
                 },
                 child: const Text('Login')),
             TextButton(
               onPressed: () async {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/register/', (route) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/register/',
+                  (route) => false,
+                );
               },
               child: const Text("Not Registered Yet? Register Here"),
             ),
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/verifyemail/', (route) => false);
-              },
-              child: const Text("Verify Your Email."),
-            )
           ],
         ));
   }
 }
+
+
+
+
+//dont need this idk why
+// final user = FirebaseAuth.instance.currentUser;
+//                     if (user?.emailVerified ?? false) {
+//                     }
