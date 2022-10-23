@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:login_ui/constant/route.dart';
 
 enum MenuAction { logout }
 
@@ -27,7 +28,10 @@ class _HomeState extends State<Home> {
                     await FirebaseAuth.instance.signOut();
                     if (!mounted) return;
                     await Navigator.pushNamedAndRemoveUntil(
-                        context, '/login/', (_) => false);
+                      context,
+                      loginRoute,
+                      (_) => false,
+                    );
                   }
                   break;
               }

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:login_ui/constant/route.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({super.key});
@@ -33,7 +34,10 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
           TextButton(
             onPressed: () async {
               Navigator.pushNamedAndRemoveUntil(
-                  context, '/login/', (route) => false);
+                context,
+                loginRoute,
+                (route) => false,
+              );
             },
             child: const Text(
               "If Verified , Click Here",

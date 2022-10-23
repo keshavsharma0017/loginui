@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:login_ui/constant/route.dart';
 import 'package:login_ui/firebase_options.dart';
 import 'package:login_ui/views/home.dart';
 import 'package:login_ui/views/login_view.dart';
@@ -15,10 +16,10 @@ void main() {
       title: "Blockchain",
       home: const HomePage(),
       routes: {
-        '/login/': ((context) => const LoginView()),
-        '/register/': ((context) => const RegisterView()),
-        '/verifyemail/': ((context) => const VerifyEmailView()),
-        '/home/': ((context) => const Home()),
+        loginRoute: ((context) => const LoginView()),
+        registerRoute: ((context) => const RegisterView()),
+        verifyEmailRoute: ((context) => const VerifyEmailView()),
+        homeRoute: ((context) => const Home()),
       },
     ),
   );

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
+import 'package:login_ui/constant/route.dart';
+import '../utilities/show_error_dialogs.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -68,35 +69,62 @@ class _LoginViewState extends State<LoginView> {
                   final email = _email.text;
                   final password = _passowrd.text;
                   try {
-                    final userCredential =
-                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                    // final userCredential =
+                    await FirebaseAuth.instance.signInWithEmailAndPassword(
                       email: email,
                       password: password,
                     );
 
-                    devtools.log(userCredential.toString());
+                    // devtools.log(userCredential.toString());
 
-                    if (!mounted) return;
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/home/',
-                      (route) => false,
-                    );
+                    final user = FirebaseAuth.instance.currentUser;
+                    if (user?.emailVerified ?? false) {
+                      //users email is now verified
+                      if (!mounted) return;
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        homeRoute,
+                        (route) => false,
+                      );
+                    } else {
+                      //user email is not verivied
+                      if (!mounted) return;
+                      await showErrorDialog(
+                        context,
+                        'Email not varified yet',
+                      );
+                    }
                   } on FirebaseAuthException catch (e) {
                     if (e.code == "user-not-found") {
-                      devtools.log("User details is Invalid");
+                      await showErrorDialog(
+                        context,
+                        'User Not Found',
+                      );
                       // print(e);
                       // print(e.runtimeType);
                     } else if (e.code == "wrong-password") {
-                      devtools.log("Invaild Password");
+                      await showErrorDialog(
+                        context,
+                        'Invaild Password',
+                      );
+                    } else {
+                      await showErrorDialog(
+                        context,
+                        'Error: ${e.code}',
+                      );
                     }
+                  } catch (e) {
+                    await showErrorDialog(
+                      context,
+                      e.toString(),
+                    );
                   }
                 },
                 child: const Text('Login')),
             TextButton(
               onPressed: () async {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/register/',
+                  registerRoute,
                   (route) => false,
                 );
               },
@@ -106,6 +134,7 @@ class _LoginViewState extends State<LoginView> {
         ));
   }
 }
+
 
 
 

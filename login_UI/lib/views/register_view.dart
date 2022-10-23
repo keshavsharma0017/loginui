@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
+import 'package:login_ui/constant/route.dart';
+import 'package:login_ui/utilities/show_error_dialogs.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -68,30 +69,55 @@ class _RegisterViewState extends State<RegisterView> {
                   final email = _email.text;
                   final password = _passowrd.text;
                   try {
-                    final userCredential = await FirebaseAuth.instance
-                        .createUserWithEmailAndPassword(
+                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
                       email: email,
                       password: password,
                     );
-                    devtools.log(userCredential.toString());
+                    // devtools.log(userCredential.toString());
                     if (!mounted) return;
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/verifyemail/', (route) => false);
+                    Navigator.pushNamed(
+                      context,
+                      verifyEmailRoute,
+                    );
                   } on FirebaseAuthException catch (e) {
                     if (e.code == "weak-password") {
-                      devtools.log("Weak Password");
+                      // devtools.log("Weak Password");
+                      await showErrorDialog(
+                        context,
+                        'Weak Password',
+                      );
                     } else if (e.code == "email-already-in-use") {
-                      devtools.log("Email Already In Use");
+                      // devtools.log("Email Already In Use");
+                      await showErrorDialog(
+                        context,
+                        'Email Already In Use',
+                      );
                     } else if (e.code == "invalid-email") {
-                      devtools.log("Invalid Email");
+                      // devtools.log("Invalid Email");
+                      await showErrorDialog(
+                        context,
+                        'Invaild Email',
+                      );
+                    } else {
+                      await showErrorDialog(
+                        context,
+                        'Error: ${e.code}',
+                      );
                     }
+                  } catch (e) {
+                    await showErrorDialog(
+                      context,
+                      e.toString(),
+                    );
                   }
                 },
                 child: const Text('Register')),
             TextButton(
               onPressed: () async {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/login/', (route) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  loginRoute,
+                  (route) => false,
+                );
               },
               child: const Text("Already a user? Login Here"),
             )
