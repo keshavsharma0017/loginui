@@ -130,6 +130,14 @@ class _LoginViewState extends State<LoginView> {
               },
               child: const Text("Not Registered Yet? Register Here"),
             ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  forgotPasswordRoute,
+                );
+              },
+              child: const Text("forgot password"),
+            ),
           ],
         ));
   }
