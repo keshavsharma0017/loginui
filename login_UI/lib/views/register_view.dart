@@ -75,10 +75,8 @@ class _RegisterViewState extends State<RegisterView> {
                     );
                     // devtools.log(userCredential.toString());
                     if (!mounted) return;
-                    Navigator.pushNamed(
-                      context,
-                      verifyEmailRoute,
-                    );
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, verifyEmailRoute, (route) => false);
                   } on FirebaseAuthException catch (e) {
                     if (e.code == "weak-password") {
                       // devtools.log("Weak Password");
@@ -120,6 +118,14 @@ class _RegisterViewState extends State<RegisterView> {
                 );
               },
               child: const Text("Already a user? Login Here"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pushNamed(
+                  verifyEmailRoute,
+                );
+              },
+              child: const Text("Verify, if Not"),
             )
           ],
         ));
