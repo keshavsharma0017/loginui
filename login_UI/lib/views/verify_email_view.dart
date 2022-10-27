@@ -35,6 +35,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             onPressed: () async {
               final user = FirebaseAuth.instance.currentUser;
               await user?.sendEmailVerification();
+              // log(user.toString());
               if (!mounted) return;
               popUp(context, 'Verification mail has been sent');
             },

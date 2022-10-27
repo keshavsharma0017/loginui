@@ -9,7 +9,6 @@ import 'package:login_ui/views/login_view.dart';
 import 'package:login_ui/views/register_view.dart';
 import 'package:login_ui/views/verify_email_view.dart';
 
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
@@ -47,7 +46,7 @@ class HomePage extends StatelessWidget {
                 return const Home();
                 // return const Home();
               } else {
-                return const VerifyEmailView();
+                return const VerifyEmailView(); //needs to send login page and pop msg of verifying it later
               }
             } else {
               return const LoginView();
