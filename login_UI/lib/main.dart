@@ -9,6 +9,7 @@ import 'package:login_ui/views/login_view.dart';
 import 'package:login_ui/views/register_view.dart';
 import 'package:login_ui/views/verify_email_view.dart';
 
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(

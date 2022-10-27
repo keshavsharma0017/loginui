@@ -32,39 +32,55 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
         // future: Firebase.initializeApp(),
-        appBar: AppBar(title: const Text('Login')),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            TextFormField(
-              controller: _email,
-              enableSuggestions: false,
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                contentPadding: EdgeInsets.only(left: 10),
-                hintText: "Email",
-                border: UnderlineInputBorder(
-                  borderSide: BorderSide(),
+        appBar: AppBar(
+            title: const Center(
+          child: Text('Login'),
+        )),
+        body: Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                controller: _email,
+                enableSuggestions: false,
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  filled: true,
+                  contentPadding: EdgeInsets.only(
+                    left: 10,
+                  ),
+                  hintText: "Email",
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
                 ),
               ),
-            ),
-            TextFormField(
-              controller: _passowrd,
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: const InputDecoration(
-                hintText: "Password",
-                contentPadding: EdgeInsets.only(left: 10),
-                border: UnderlineInputBorder(borderSide: BorderSide()),
-                labelText: 'Password',
+              const SizedBox(
+                height: 20,
               ),
-            ),
-            TextButton(
+              TextFormField(
+                controller: _passowrd,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: const InputDecoration(
+                    hintText: "Password",
+                    filled: true,
+                    contentPadding: EdgeInsets.only(left: 10),
+                    labelText: 'Password',
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.blue,
+                      ),
+                    )),
+              ),
+              ElevatedButton(
                 onPressed: () async {
                   final email = _email.text;
                   final password = _passowrd.text;
@@ -120,25 +136,27 @@ class _LoginViewState extends State<LoginView> {
                     );
                   }
                 },
-                child: const Text('Login')),
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  registerRoute,
-                  (route) => false,
-                );
-              },
-              child: const Text("Not Registered Yet? Register Here"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  forgotPasswordRoute,
-                );
-              },
-              child: const Text("forgot password"),
-            ),
-          ],
+                child: const Text('Login'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    registerRoute,
+                    (route) => false,
+                  );
+                },
+                child: const Text("Not Registered Yet? Register Here"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    forgotPasswordRoute,
+                  );
+                },
+                child: const Text("forgot password"),
+              ),
+            ],
+          ),
         ));
   }
 }

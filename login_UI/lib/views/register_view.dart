@@ -32,102 +32,123 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
         // future: Firebase.initializeApp(),
-        appBar: AppBar(title: const Text('Register Here')),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            TextFormField(
-              controller: _email,
-              enableSuggestions: false,
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                contentPadding: EdgeInsets.only(left: 10),
-                hintText: "Email",
-                border: UnderlineInputBorder(
-                  borderSide: BorderSide(),
+        appBar: AppBar(
+            title: const Center(
+          child: Text('Register Here'),
+        )),
+        body: Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                controller: _email,
+                enableSuggestions: false,
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  filled: true,
+                  contentPadding: EdgeInsets.only(
+                    left: 10,
+                  ),
+                  hintText: "Email",
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
                 ),
               ),
-            ),
-            TextFormField(
-              controller: _passowrd,
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: const InputDecoration(
-                hintText: "Password",
-                contentPadding: EdgeInsets.only(left: 10),
-                border: UnderlineInputBorder(borderSide: BorderSide()),
-                labelText: 'Password',
+              const SizedBox(
+                height: 20,
               ),
-            ),
-            TextButton(
-                onPressed: () async {
-                  final email = _email.text;
-                  final password = _passowrd.text;
-                  try {
-                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                      email: email,
-                      password: password,
-                    );
-                    // devtools.log(userCredential.toString());
-                    if (!mounted) return;
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, verifyEmailRoute, (route) => false);
-                  } on FirebaseAuthException catch (e) {
-                    if (e.code == "weak-password") {
-                      // devtools.log("Weak Password");
-                      await showErrorDialog(
-                        context,
-                        'Weak Password',
+              TextFormField(
+                controller: _passowrd,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: const InputDecoration(
+                  hintText: "Password",
+                  filled: true,
+                  contentPadding: EdgeInsets.only(
+                    left: 10,
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  labelText: 'Password',
+                ),
+              ),
+              ElevatedButton(
+                  onPressed: () async {
+                    final email = _email.text;
+                    final password = _passowrd.text;
+                    try {
+                      await FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                        email: email,
+                        password: password,
                       );
-                    } else if (e.code == "email-already-in-use") {
-                      // devtools.log("Email Already In Use");
+                      // devtools.log(userCredential.toString());
+                      if (!mounted) return;
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, verifyEmailRoute, (route) => false);
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == "weak-password") {
+                        // devtools.log("Weak Password");
+                        await showErrorDialog(
+                          context,
+                          'Weak Password',
+                        );
+                      } else if (e.code == "email-already-in-use") {
+                        // devtools.log("Email Already In Use");
+                        await showErrorDialog(
+                          context,
+                          'Email Already In Use',
+                        );
+                      } else if (e.code == "invalid-email") {
+                        // devtools.log("Invalid Email");
+                        await showErrorDialog(
+                          context,
+                          'Invaild Email',
+                        );
+                      } else {
+                        await showErrorDialog(
+                          context,
+                          'Error: ${e.code}',
+                        );
+                      }
+                    } catch (e) {
                       await showErrorDialog(
                         context,
-                        'Email Already In Use',
-                      );
-                    } else if (e.code == "invalid-email") {
-                      // devtools.log("Invalid Email");
-                      await showErrorDialog(
-                        context,
-                        'Invaild Email',
-                      );
-                    } else {
-                      await showErrorDialog(
-                        context,
-                        'Error: ${e.code}',
+                        e.toString(),
                       );
                     }
-                  } catch (e) {
-                    await showErrorDialog(
-                      context,
-                      e.toString(),
-                    );
-                  }
+                  },
+                  child: const Text('Register')),
+              ElevatedButton(
+                onPressed: () async {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    loginRoute,
+                    (route) => false,
+                  );
                 },
-                child: const Text('Register')),
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  loginRoute,
-                  (route) => false,
-                );
-              },
-              child: const Text("Already a user? Login Here"),
-            ),
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pushNamed(
-                  verifyEmailRoute,
-                );
-              },
-              child: const Text("Verify, if Not"),
-            )
-          ],
+                child: const Text("Already a user? Login Here"),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  Navigator.of(context).pushNamed(
+                    verifyEmailRoute,
+                  );
+                },
+                child: const Text("Verify, if Not"),
+              )
+            ],
+          ),
         ));
   }
 }
