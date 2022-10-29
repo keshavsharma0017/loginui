@@ -107,8 +107,9 @@ class _LoginViewState extends State<LoginView> {
                       if (!mounted) return;
                       await showErrorDialog(
                         context,
-                        'Email not varified yet',
+                        'Email not verified yet, an Email verification has been sent to your Email',
                       );
+                      user?.sendEmailVerification();
                     }
                   } on FirebaseAuthException catch (e) {
                     if (e.code == "user-not-found") {

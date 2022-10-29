@@ -1,3 +1,5 @@
+import 'dart:developer' as devtools show log;
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login_ui/constant/route.dart';
@@ -13,6 +15,8 @@ class VerifyEmailView extends StatefulWidget {
 class _VerifyEmailViewState extends State<VerifyEmailView> {
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    user?.sendEmailVerification();
     return Scaffold(
         appBar: AppBar(
           title: const Text("MAIL VERIFY"),
@@ -23,7 +27,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
           ),
           const Center(
             child: Text(
-              "Please Verify Your Email",
+              "Verification Mail has been Sent",
               textScaleFactor: 1.5,
               textAlign: TextAlign.center,
             ),
@@ -33,9 +37,8 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
           ),
           ElevatedButton(
             onPressed: () async {
-              final user = FirebaseAuth.instance.currentUser;
               await user?.sendEmailVerification();
-              // log(user.toString());
+              devtools.log(user.toString());
               if (!mounted) return;
               popUp(context, 'Verification mail has been sent');
             },

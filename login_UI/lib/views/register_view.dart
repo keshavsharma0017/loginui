@@ -139,14 +139,6 @@ class _RegisterViewState extends State<RegisterView> {
                 },
                 child: const Text("Already a user? Login Here"),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  Navigator.of(context).pushNamed(
-                    verifyEmailRoute,
-                  );
-                },
-                child: const Text("Verify, if Not"),
-              )
             ],
           ),
         ));
