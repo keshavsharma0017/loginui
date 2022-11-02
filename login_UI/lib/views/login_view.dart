@@ -31,15 +31,16 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // future: Firebase.initializeApp(),
-        appBar: AppBar(
-            title: const Center(
-          child: Text('Login'),
-        )),
-        body: Container(
+      body: SingleChildScrollView(
+        child: Container(
           padding: const EdgeInsets.all(20),
           child: Column(
             children: <Widget>[
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+                child: Image.asset('assets/images/logp2.webp'),
+              ),
               TextFormField(
                 controller: _email,
                 enableSuggestions: false,
@@ -48,17 +49,34 @@ class _LoginViewState extends State<LoginView> {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(
                   labelText: 'Email',
-                  filled: true,
+                  // filled: true,
                   contentPadding: EdgeInsets.only(
                     left: 10,
                   ),
                   hintText: "Email",
-                  border: OutlineInputBorder(
+                  prefixIcon: Align(
+                    widthFactor: 1.0,
+                    heightFactor: 1.0,
+                    child: Icon(
+                      Icons.alternate_email_sharp,
+                    ),
+                  ),
+                  border: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.blue,
                     ),
                   ),
                 ),
+                validator: ((value) {
+                  if (value!.isEmpty) {
+                    return "Email cannot be empty";
+                  } else if (!(RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value))) {
+                    return "Incorrect email Format";
+                  }
+                  return null;
+                }),
               ),
               const SizedBox(
                 height: 20,
@@ -70,15 +88,41 @@ class _LoginViewState extends State<LoginView> {
                 autocorrect: false,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(
-                    hintText: "Password",
-                    filled: true,
-                    contentPadding: EdgeInsets.only(left: 10),
-                    labelText: 'Password',
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                      ),
-                    )),
+                  hintText: "Password",
+                  // filled: true,
+                  contentPadding: EdgeInsets.only(left: 10),
+                  labelText: 'Password',
+                  prefixIcon: Align(
+                    widthFactor: 1.0,
+                    heightFactor: 1.0,
+                    child: Icon(
+                      Icons.lock_outline_rounded,
+                    ),
+                  ),
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+                validator: ((value) {
+                  if (value!.isEmpty) {
+                    return "password cannot be empty";
+                  } else {
+                    return null;
+                  }
+                }),
+              ),
+              Container(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      forgotPasswordRoute,
+                    );
+                  },
+                  child: const Text("Forgot Password?"),
+                ),
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -137,7 +181,16 @@ class _LoginViewState extends State<LoginView> {
                     );
                   }
                 },
-                child: const Text('Login'),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: const Text('SignIn'),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -146,19 +199,19 @@ class _LoginViewState extends State<LoginView> {
                     (route) => false,
                   );
                 },
-                child: const Text("Not Registered Yet? Register Here"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    forgotPasswordRoute,
-                  );
-                },
-                child: const Text("forgot password"),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: const Text("SignUp"),
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 

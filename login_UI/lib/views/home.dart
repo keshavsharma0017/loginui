@@ -64,10 +64,21 @@ class _HomeState extends State<Home> {
             ),
             ListTile(
               title: const Text('Logout'),
-              onTap: () {
-                FirebaseAuth.instance.signOut();
-                Navigator.pushNamedAndRemoveUntil(
-                    context, loginRoute, (route) => false);
+              onTap: () async {
+                Navigator.pop(context);
+                final shouldLogout = showLogOutDialog(context);
+                if (await shouldLogout) {
+                  await FirebaseAuth.instance.signOut();
+                  if (!mounted) return;
+                  await Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    loginRoute,
+                    (_) => false,
+                  );
+                }
+                // FirebaseAuth.instance.signOut();
+                // Navigator.pushNamedAndRemoveUntil(
+                //     context, loginRoute, (route) => false);
               },
             ),
             ListTile(

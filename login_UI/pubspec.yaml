@@ -65,11 +65,14 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-assets:
-  images/background.avif
+  assets:
+  
   # To add assets to your application, add an assets section, like this:
   # assets:
-  #   - images/a_dot_burr.jpeg
+    - assets/images/logp.png
+    - assets/images/logp2.webp
+    - assets/images/logp3.webp
+    - assets/images/logp4.webp
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
