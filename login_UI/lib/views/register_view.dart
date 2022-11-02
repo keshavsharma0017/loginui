@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:login_ui/constant/route.dart';
 import 'package:login_ui/utilities/show_error_dialogs.dart';
@@ -41,8 +42,27 @@ class _RegisterViewState extends State<RegisterView> {
             children: <Widget>[
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
                 child: Image.asset('assets/images/logp3.webp'),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    "Sign Up",
+                    style: TextStyle(
+                      fontSize: 25,
+                      // color: Colors.blue,
+                      // fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w800,
+                      decorationThickness: 4,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               TextFormField(
                 enableSuggestions: false,
@@ -62,7 +82,7 @@ class _RegisterViewState extends State<RegisterView> {
                       Icons.account_circle_outlined,
                     ),
                   ),
-                  hintText: "username",
+                  hintText: "",
                   border: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.blue,
@@ -78,7 +98,7 @@ class _RegisterViewState extends State<RegisterView> {
                 }),
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               TextFormField(
                 controller: _email,
@@ -99,7 +119,7 @@ class _RegisterViewState extends State<RegisterView> {
                       Icons.alternate_email_sharp,
                     ),
                   ),
-                  hintText: "Email",
+                  hintText: "",
                   border: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.blue,
@@ -118,7 +138,7 @@ class _RegisterViewState extends State<RegisterView> {
                 }),
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               TextFormField(
                 controller: _passowrd,
@@ -127,7 +147,7 @@ class _RegisterViewState extends State<RegisterView> {
                 autocorrect: false,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(
-                  hintText: "Password",
+                  hintText: "",
                   // filled: true,
                   contentPadding: EdgeInsets.only(
                     left: 10,
@@ -217,21 +237,49 @@ class _RegisterViewState extends State<RegisterView> {
               const SizedBox(
                 height: 20,
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    loginRoute,
-                    (route) => false,
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
+
+              RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    const TextSpan(
+                      text: "Already a User ?",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 17,
+                      ),
+                    ),
+                    TextSpan(
+                      text: " Login",
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        fontSize: 17,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            loginRoute,
+                            (route) => false,
+                          );
+                        },
+                    ),
+                  ],
                 ),
-                child: const Text("Already a user? Login Here"),
               ),
+              // ElevatedButton(
+              //   onPressed: () async {
+              //     Navigator.of(context).pushNamedAndRemoveUntil(
+              //       loginRoute,
+              //       (route) => false,
+              //     );
+              //   },
+              //   style: ElevatedButton.styleFrom(
+              //     minimumSize: const Size(double.infinity, 50),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(30),
+              //     ),
+              //   ),
+              //   child: const Text("Already a user? Login Here"),
+              // ),
             ],
           ),
         ),

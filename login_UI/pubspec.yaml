@@ -73,6 +73,7 @@ flutter:
     - assets/images/logp2.webp
     - assets/images/logp3.webp
     - assets/images/logp4.webp
+    - assets/images/logp5.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

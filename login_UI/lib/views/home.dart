@@ -11,6 +11,8 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
+final email = FirebaseAuth.instance.currentUser?.email;
+
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
@@ -48,11 +50,22 @@ class _HomeState extends State<Home> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
+            DrawerHeader(
+              margin: const EdgeInsets.only(bottom: 15.0),
+              // padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+              // duration: const Duration(milliseconds: 2500),
+              // curve: Curves.fastOutSlowIn,
+              decoration: const BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text('Hello'),
+              child: Text(
+                "Welcome,\n\n $email",
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.5,
+              ),
             ),
             ListTile(
               title: const Text('Info'),

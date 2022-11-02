@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:login_ui/constant/route.dart';
 import '../utilities/show_error_dialogs.dart';
@@ -38,8 +39,24 @@ class _LoginViewState extends State<LoginView> {
             children: <Widget>[
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
                 child: Image.asset('assets/images/logp2.webp'),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      fontSize: 25,
+                      // color: Colors.blue,
+                      // fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w800,
+                      decorationThickness: 4,
+                    ),
+                  ),
+                ),
               ),
               TextFormField(
                 controller: _email,
@@ -50,10 +67,10 @@ class _LoginViewState extends State<LoginView> {
                 decoration: const InputDecoration(
                   labelText: 'Email',
                   // filled: true,
-                  contentPadding: EdgeInsets.only(
-                    left: 10,
-                  ),
-                  hintText: "Email",
+                  // contentPadding: EdgeInsets.only(
+                  //   left: 10,
+                  // ),
+                  hintText: "",
                   prefixIcon: Align(
                     widthFactor: 1.0,
                     heightFactor: 1.0,
@@ -78,9 +95,9 @@ class _LoginViewState extends State<LoginView> {
                   return null;
                 }),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
               TextFormField(
                 controller: _passowrd,
                 obscureText: true,
@@ -88,9 +105,9 @@ class _LoginViewState extends State<LoginView> {
                 autocorrect: false,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(
-                  hintText: "Password",
+                  hintText: "",
                   // filled: true,
-                  contentPadding: EdgeInsets.only(left: 10),
+                  // contentPadding: EdgeInsets.only(left: 10),
                   labelText: 'Password',
                   prefixIcon: Align(
                     widthFactor: 1.0,
@@ -187,26 +204,53 @@ class _LoginViewState extends State<LoginView> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const Text('SignIn'),
+                child: const Text('Login'),
               ),
               const SizedBox(
                 height: 20,
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    registerRoute,
-                    (route) => false,
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
+              RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    const TextSpan(
+                      text: "Not Registered Yet ?",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 17,
+                      ),
+                    ),
+                    TextSpan(
+                      text: " Click Here",
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        fontSize: 17,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            registerRoute,
+                            (route) => false,
+                          );
+                        },
+                    ),
+                  ],
                 ),
-                child: const Text("SignUp"),
               ),
+
+              // const Text(
+              //   'Not Registered?',
+              // ),
+              // TextButton(
+              //   onPressed: () async {
+              //     Navigator.of(context).pushNamedAndRemoveUntil(
+              //       registerRoute,
+              //       (route) => false,
+              //     );
+              //   },
+              //   child: const Text(
+              //     "Click Here",
+              //   ),
+              // ),
             ],
           ),
         ),

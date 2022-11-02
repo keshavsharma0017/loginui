@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login_ui/constant/route.dart';
+import 'package:login_ui/utilities/pop_up.dart';
 import 'package:login_ui/utilities/show_error_dialogs.dart';
 
 class ForgetPassword extends StatefulWidget {
@@ -31,11 +32,27 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             children: [
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
                 child: Image.asset('assets/images/logp4.webp'),
               ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    "Forgot \nPassword?",
+                    style: TextStyle(
+                      fontSize: 25,
+                      // color: Colors.blue,
+                      // fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w800,
+                      decorationThickness: 4,
+                    ),
+                  ),
+                ),
+              ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               TextFormField(
                 controller: _emailv,
@@ -49,13 +66,30 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     left: 10,
                   ),
                   // filled: true,
-                  hintText: "Email",
+                  hintText: "",
+                  prefixIcon: Align(
+                    widthFactor: 1.0,
+                    heightFactor: 1.0,
+                    child: Icon(
+                      Icons.email_outlined,
+                    ),
+                  ),
                   border: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.blue,
                     ),
                   ),
                 ),
+                validator: ((value) {
+                  if (value!.isEmpty) {
+                    return "Email cannot be empty";
+                  } else if (!(RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value))) {
+                    return "Incorrect email Format";
+                  }
+                  return null;
+                }),
               ),
               const SizedBox(
                 height: 20,
@@ -80,6 +114,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       );
                     }
                   });
+                  if (!mounted) {}
+                  popUp(context, "Password reset mail has been sent");
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
@@ -87,7 +123,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const Text('Send Email Verification'),
+                child: const Text('Submit'),
               ),
               const SizedBox(
                 height: 20,

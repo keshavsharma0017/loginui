@@ -18,49 +18,65 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
     final user = FirebaseAuth.instance.currentUser;
     user?.sendEmailVerification();
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("MAIL VERIFY"),
+        body: Container(
+      padding: const EdgeInsets.all(20),
+      child: Column(children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
+          child: Image.asset('assets/images/logp5.png'),
         ),
-        body: Column(children: [
-          const SizedBox(
-            height: 20,
+        const SizedBox(
+          height: 20,
+        ),
+        const Center(
+          child: Text(
+            "Verification Mail has been Sent",
+            textScaleFactor: 1.5,
+            textAlign: TextAlign.center,
           ),
-          const Center(
-            child: Text(
-              "Verification Mail has been Sent",
-              textScaleFactor: 1.5,
-              textAlign: TextAlign.center,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            await user?.sendEmailVerification();
+            devtools.log(user.toString());
+            if (!mounted) return;
+            popUp(context, 'Another Verification mail has been sent');
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(double.infinity, 50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
             ),
           ),
-          const SizedBox(
-            height: 20,
+          child: const Text(
+            "Resend Email",
           ),
-          ElevatedButton(
-            onPressed: () async {
-              await user?.sendEmailVerification();
-              devtools.log(user.toString());
-              if (!mounted) return;
-              popUp(context, 'Another Verification mail has been sent');
-            },
-            child: const Text(
-              "Resend Email",
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              loginRoute,
+              (route) => false,
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(double.infinity, 50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
             ),
           ),
-          const SizedBox(
-            height: 10,
+          child: const Text(
+            "If Verified , Click Here",
           ),
-          ElevatedButton(
-            onPressed: () async {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                loginRoute,
-                (route) => false,
-              );
-            },
-            child: const Text(
-              "If Verified , Click Here",
-            ),
-          ),
-        ]));
+        ),
+      ]),
+    ));
   }
 }
