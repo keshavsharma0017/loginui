@@ -40,10 +40,10 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
               await user?.sendEmailVerification();
               devtools.log(user.toString());
               if (!mounted) return;
-              popUp(context, 'Verification mail has been sent');
+              popUp(context, 'Another Verification mail has been sent');
             },
             child: const Text(
-              "Send Email",
+              "Resend Email",
             ),
           ),
           const SizedBox(

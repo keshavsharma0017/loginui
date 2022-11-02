@@ -59,6 +59,14 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                 ),
+                validator: ((value) {
+                  if (value!.isEmpty) {
+                    return "Email cannot be empty";
+                  } else if (!(RegExp(r'[?=*(0-9)]').hasMatch(value))) {
+                    return "it is an error";
+                  }
+                  return null;
+                }),
               ),
               const SizedBox(
                 height: 20,

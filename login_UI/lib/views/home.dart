@@ -16,7 +16,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Center(child: Text("Home")),
         actions: [
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
@@ -43,6 +43,41 @@ class _HomeState extends State<Home> {
             },
           )
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Hello'),
+            ),
+            ListTile(
+              title: const Text('Info'),
+              onTap: () {},
+            ),
+            ListTile(
+              title: const Text('Setting'),
+              onTap: () {},
+            ),
+            ListTile(
+              title: const Text('Logout'),
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, loginRoute, (route) => false);
+              },
+            ),
+            ListTile(
+              title: const Text('Close'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
