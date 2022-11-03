@@ -127,7 +127,7 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                 ),
                 validator: ((value) {
-                  if (value!.isEmpty) {
+                  if (value == null || value.isEmpty) {
                     return "Email cannot be empty";
                   } else if (!(RegExp(
                           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -167,7 +167,7 @@ class _RegisterViewState extends State<RegisterView> {
                   labelText: 'Password',
                 ),
                 validator: ((value) {
-                  if (value!.isEmpty) {
+                  if (value == null || value.isEmpty) {
                     return "password cannot be empty";
                   } else if (!(RegExp(
                           r"^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$%^&-+=()]).{8,20}$")
@@ -183,48 +183,50 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  final email = _email.text;
-                  final password = _passowrd.text;
-                  try {
-                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                      email: email,
-                      password: password,
-                    );
-                    // devtools.log(userCredential.toString());
-                    if (!mounted) return;
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, verifyEmailRoute, (route) => false);
-                  } on FirebaseAuthException catch (e) {
-                    if (e.code == "weak-password") {
-                      // devtools.log("Weak Password");
-                      await showErrorDialog(
-                        context,
-                        'Weak Password',
+                    final email = _email.text;
+                    final password = _passowrd.text;
+                    try {
+                      await FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                        email: email,
+                        password: password,
                       );
-                    } else if (e.code == "email-already-in-use") {
-                      // devtools.log("Email Already In Use");
+                      // devtools.log(userCredential.toString());
+                      if (!mounted) return;
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, verifyEmailRoute, (route) => false);
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == "weak-password") {
+                        // devtools.log("Weak Password");
+                        await showErrorDialog(
+                          context,
+                          'Weak Password',
+                        );
+                      } else if (e.code == "email-already-in-use") {
+                        // devtools.log("Email Already In Use");
+                        await showErrorDialog(
+                          context,
+                          'Email Already In Use',
+                        );
+                      } else if (e.code == "invalid-email") {
+                        // devtools.log("Invalid Email");
+                        await showErrorDialog(
+                          context,
+                          'Invaild Email',
+                        );
+                      } else {
+                        await showErrorDialog(
+                          context,
+                          'Error: ${e.code}',
+                        );
+                      }
+                    } catch (e) {
                       await showErrorDialog(
                         context,
-                        'Email Already In Use',
-                      );
-                    } else if (e.code == "invalid-email") {
-                      // devtools.log("Invalid Email");
-                      await showErrorDialog(
-                        context,
-                        'Invaild Email',
-                      );
-                    } else {
-                      await showErrorDialog(
-                        context,
-                        'Error: ${e.code}',
+                        e.toString(),
                       );
                     }
-                  } catch (e) {
-                    await showErrorDialog(
-                      context,
-                      e.toString(),
-                    );
-                  }
+                  
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),

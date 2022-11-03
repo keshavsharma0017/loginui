@@ -29,11 +29,14 @@ class _LoginViewState extends State<LoginView> {
     super.dispose();
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
+          key: _formKey,
           padding: const EdgeInsets.all(20),
           child: Column(
             children: <Widget>[
