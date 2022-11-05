@@ -97,9 +97,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ElevatedButton(
                 onPressed: () async {
                   final email = _emailv.text;
-                  await FirebaseAuth.instance
-                      .sendPasswordResetEmail(email: email)
-                      .catchError((e) {
+                  try {
+                    await FirebaseAuth.instance
+                        .sendPasswordResetEmail(email: email);
+                    if (!mounted) {}
+                    popUp(context, "Password reset mail has been sent");
+                  } on FirebaseAuthException catch (e) {
                     if (e.code == "invalid-email") {
                       showErrorDialog(
                         context,
@@ -113,9 +116,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         'Error: ${e.code}',
                       );
                     }
-                  });
-                  if (!mounted) {}
-                  popUp(context, "Password reset mail has been sent");
+                  } catch (e) {
+                    if (!mounted) {}
+                    await showErrorDialog(
+                      context,
+                      e.toString(),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),

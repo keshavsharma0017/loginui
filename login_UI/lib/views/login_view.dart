@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:login_ui/constant/route.dart';
 import '../utilities/show_error_dialogs.dart';
 
@@ -239,21 +240,22 @@ class _LoginViewState extends State<LoginView> {
                   ],
                 ),
               ),
-
-              // const Text(
-              //   'Not Registered?',
-              // ),
-              // TextButton(
+              // ElevatedButton(
               //   onPressed: () async {
-              //     Navigator.of(context).pushNamedAndRemoveUntil(
-              //       registerRoute,
-              //       (route) => false,
+              //     GoogleSignInAccount? googleUser =
+              //         await GoogleSignIn().signIn();
+              //     GoogleSignInAuthentication? googleAuth =
+              //         await googleUser?.authentication;
+              //     final credential = GoogleAuthProvider.credential(
+              //       accessToken: googleAuth?.accessToken,
+              //       idToken: googleAuth?.idToken,
               //     );
+              //     UserCredential credentialUser = await FirebaseAuth.instance
+              //         .signInWithCredential(credential);
+              //     User? user = credentialUser.user;
               //   },
-              //   child: const Text(
-              //     "Click Here",
-              //   ),
-              // ),
+              //   child: const Text('Google'),
+              // )
             ],
           ),
         ),
@@ -270,3 +272,21 @@ class _LoginViewState extends State<LoginView> {
 // final user = FirebaseAuth.instance.currentUser;
 //                     if (user?.emailVerified ?? false) {
 //                     }
+
+
+
+
+// const Text(
+              //   'Not Registered?',
+              // ),
+              // TextButton(
+              //   onPressed: () async {
+              //     Navigator.of(context).pushNamedAndRemoveUntil(
+              //       registerRoute,
+              //       (route) => false,
+              //     );
+              //   },
+              //   child: const Text(
+              //     "Click Here",
+              //   ),
+              // ),
