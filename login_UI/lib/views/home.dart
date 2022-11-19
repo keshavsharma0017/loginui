@@ -18,6 +18,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue[900],
         title: const Center(child: Text("Home")),
         actions: [
           PopupMenuButton<MenuAction>(
@@ -47,6 +48,7 @@ class _HomeState extends State<Home> {
         ],
       ),
       drawer: Drawer(
+        backgroundColor: Colors.blue[900],
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -59,7 +61,7 @@ class _HomeState extends State<Home> {
                 color: Colors.blue,
               ),
               child: Text(
-                "Welcome,\n\n456 $email",
+                "Welcome,\n\n $email",
                 style: const TextStyle(
                   color: Colors.white,
                 ),

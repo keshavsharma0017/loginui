@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login_ui/constant/route.dart';
-import 'package:anim_search_bar/anim_search_bar.dart';
+// import 'package:anim_search_bar/anim_search_bar.dart';
 
 enum MenuAction { logout }
 
@@ -22,24 +22,36 @@ class _HomeState extends State<Home> {
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       appBar: AppBar(
         backgroundColor: Colors.blue[900],
-        title: const Center(child: Text("Home")),
+        // title: const Center(child: Text("Home")),
         actions: [
-          AnimSearchBar(
-            width: 300,
-            color: Colors.black,
-            helpText: "Search...",
-            style: const TextStyle(
-              color: Colors.white,
+          
+            IconButton(
+              tooltip: 'Air it',
+              onPressed: () {},
+              icon: const Icon(Icons.search),
             ),
-            textController: textController,
-            onSuffixTap: () {
-              setState(() {
-                textController.clear();
-                FocusScope.of(context).requestFocus(FocusNode());
-                // FocusScope.of(context).unfocus();
-              });
-            },
-          ),
+            // AnimSearchBar(
+            //   suffixIcon: const Icon(
+            //     Icons.clear_sharp,
+            //   ),
+            //   prefixIcon:const Icon(
+            //     Icons.search,
+            //   ),
+            //   width: 300,
+            //   color: Colors.black,
+            //   helpText: "Search...",
+            //   style: const TextStyle(
+            //     color: Colors.white,
+            //   ),
+            //   textController: textController,
+            //   onSuffixTap: () {
+            //     setState(() {
+            //       // textController.clear();
+                  // FocusScope.of(context).requestFocus(FocusNode());
+            //       // FocusScope.of(context).unfocus();
+            //     });
+            //   },
+          // ),  
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value) {

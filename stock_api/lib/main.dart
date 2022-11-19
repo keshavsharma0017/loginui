@@ -14,7 +14,7 @@ void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Blockchain",
+      title: "stockapi",
       home: const HomePage(),
       routes: {
         loginRoute: ((context) => const LoginView()),
